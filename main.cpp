@@ -38,7 +38,7 @@ int main() {
 
         ImGui::SFML::Update(window, sf::seconds(1.0f / 1000000.f));
 
-        ImGui::SetNextWindowSize(ImVec2(1400, 900));
+        ImGui::SetNextWindowSize(ImVec2(1800, 900));
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::Begin("Menu");
 
@@ -50,28 +50,61 @@ int main() {
                 ImGui::Separator();
 
                 ImGui::Text("Game mode:");
+
+                ImGui::SameLine(1400); //
+                ImGui::Text("Join a local game"); //
+
                 const char* items[] = { "Soccar" }; // TODO: Add more options
                 static int item_current = 0;
                 ImGui::Combo("game mode", &item_current, items, IM_ARRAYSIZE(items));
                 game_mode = std::string{ items[item_current] };
 
+                ImGui::SameLine(1400); //
+                ImGui::Text("IP Address:");//
+
                 ImGui::Text("Arena:");
                 ImGui::SameLine();
                 ImGui::Checkbox("Enable Custom Maps", &enable_custom_maps);
 
+                ImGui::SameLine(1400); //
+                static char ip[128] = ""; //
+                ImGui::InputText("ip", ip, IM_ARRAYSIZE(ip)); //
+
                 const char* items_two[] = { "Starbase ARC aftermath" }; // TODO: Add more options and save to variable
                 static int item_current_two = 0;
                 ImGui::Combo(" ", &item_current_two, items_two, IM_ARRAYSIZE(items_two));
+
+                ImGui::SameLine(1400); //
+                ImGui::Text("Port"); //
+
                 ImGui::Text("Player count:");
+
+                ImGui::SameLine(1400); //
+                static char port[128] = ""; //
+                ImGui::InputText("port", port, IM_ARRAYSIZE(port)); //
+
                 static int player_count = 0;
                 ImGui::SliderInt("players", &player_count, 0, 10);
 
+                ImGui::SameLine(1400); //
+                ImGui::Text("Password"); //
+
                 ImGui::Text("Bot difficulty:");
+
+                ImGui::SameLine(1400); //
+                static char password[128] = ""; //
+                ImGui::InputText("password", password, IM_ARRAYSIZE(password)); //
+
                 enum Element { Element_None, Element_Easy, Element_Medium, Element_Hard, Element_COUNT };
                 static int elem = Element_None;
                 const char* elems_names[Element_COUNT] = { "None", "Easy", "Medium", "Hard" };
                 const char* elem_name = (elem >= 0 && elem < Element_COUNT) ? elems_names[elem] : "Unknown";
                 ImGui::SliderInt("difficulty", &elem, 0, Element_COUNT - 1, elem_name);
+
+                ImGui::SameLine(1400); //
+                if(ImGui::Button("Join"))
+                {
+                }
 
                 ImGui::NewLine();
 
@@ -87,7 +120,7 @@ int main() {
                     const char* enable_or_disable[Elem_COUNT] = { "Enable", "Disable" };
                     const char* element_name = (element >= 0 && element < Elem_COUNT) ? enable_or_disable[element] : "Unknown";
                     ImGui::SliderInt("Free play", &element, 0, Elem_COUNT - 1, element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     ImGui::Text("Presets:");
 
                     ImGui::Text("Match Length:");
@@ -97,7 +130,7 @@ int main() {
                     const char* match_length_options[MatchLen_COUNT] = { "5 Minutes", "10 Minutes", "20 Minutes", "Unlimited" };
                     const char* match_length_element_name = (match_length_element >= 0 && match_length_element < MatchLen_COUNT) ? match_length_options[match_length_element] : "Unknown";
                     ImGui::SliderInt("MatchLength", &match_length_element, 0, MatchLen_COUNT - 1, match_length_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Beach Ball"))
                     {
                         beach_ball_selected = true;
@@ -111,7 +144,7 @@ int main() {
                     const char* max_score_options[MaxScore_COUNT] = { "Default", "1 Goal", "3 Goals", "5 Goals", "7 Goals", "Unlimited" };
                     const char* max_score_element_name = (max_score_element >= 0 && max_score_element < MaxScore_COUNT) ? max_score_options[max_score_element] : "Unknown";
                     ImGui::SliderInt("MaxScore", &max_score_element, 0, MaxScore_COUNT - 1, max_score_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Boomer Ball"))
                     {
                         boomer_ball_selected = true;
@@ -124,7 +157,7 @@ int main() {
                     const char* overtime_options[Overtime_COUNT] = { "Unlimited", "+5 Max, First Score", "+5 Max, Random Team" };
                     const char* overtime_element_name = (overtime_element >= 0 && overtime_element < Overtime_COUNT) ? overtime_options[overtime_element] : "Unknown";
                     ImGui::SliderInt("Overtime", &overtime_element, 0, Overtime_COUNT - 1, overtime_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Cubic"))
                     {
                         cubic_selected = true;
@@ -138,7 +171,7 @@ int main() {
                     const char* max_time_limit_options[MaxTime_COUNT] = { "Default", "11 Minutes" };
                     const char* max_time_limit_element_name = (max_time_limit_element >= 0 && max_time_limit_element < MaxTime_COUNT) ? max_time_limit_options[max_time_limit_element] : "Unknown";
                     ImGui::SliderInt("MaxTimeLimit", &max_time_limit_element, 0, MaxTime_COUNT - 1, max_time_limit_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Demolition"))
                     {
                         demolition_selected = true;
@@ -151,7 +184,7 @@ int main() {
                     const char* series_length_options[SeriesLength_COUNT] = { "Unlimited", "3 Games", "5 Games", "7 Games" };
                     const char* series_length_element_name = (series_length_element >= 0 && series_length_element < SeriesLength_COUNT) ? series_length_options[series_length_element] : "Unknown";
                     ImGui::SliderInt("SeriesLength", &series_length_element, 0, SeriesLength_COUNT - 1, series_length_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Ghost Hunt"))
                     {
                         ghost_hunt_selected = true;
@@ -164,7 +197,7 @@ int main() {
                     const char* game_speed_options[GameSpeed_COUNT] = { "Default", "Slo-mo", "Time Warp" };
                     const char* game_speed_element_name = (game_speed_element >= 0 && game_speed_element < GameSpeed_COUNT) ? game_speed_options[game_speed_element] : "Unknown";
                     ImGui::SliderInt("GameSpeed", &game_speed_element, 0, GameSpeed_COUNT - 1, game_speed_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Inverted Ball"))
                     {
                         inverted_ball_selected = true;
@@ -177,7 +210,7 @@ int main() {
                     const char* ball_max_speed_options[BallMaxSpeed_COUNT] = { "Default", "Slow", "Fast", "Super Fast" };
                     const char* ball_max_speed_element_name = (ball_max_speed_element >= 0 && ball_max_speed_element < BallMaxSpeed_COUNT) ? ball_max_speed_options[ball_max_speed_element] : "Unknown";
                     ImGui::SliderInt("BallMaxSpeed", &ball_max_speed_element, 0, BallMaxSpeed_COUNT - 1, ball_max_speed_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Moon ball"))
                     {
                         moon_ball_selected = true;
@@ -190,7 +223,7 @@ int main() {
                     const char* ball_type_options[BallType_COUNT] = { "Default", "Cube", "Puck", "BasketBall", "BeachBall", "Anniversary", "HauntedBall" };
                     const char* ball_type_element_name = (ball_type_element >= 0 && ball_type_element < BallType_COUNT) ? ball_type_options[ball_type_element] : "Unknown";
                     ImGui::SliderInt("BallType", &ball_type_element, 0, BallType_COUNT - 1, ball_type_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Pinball"))
                     {
                         pinball_selected = true;
@@ -203,7 +236,7 @@ int main() {
                     const char* ball_gravity_options[BallGravity_COUNT] = { "Default", "Low", "High", "Super High" };
                     const char* ball_gravity_element_name = (ball_gravity_element >= 0 && ball_gravity_element < BallGravity_COUNT) ? ball_gravity_options[ball_gravity_element] : "Unknown";
                     ImGui::SliderInt("BallGravity", &ball_gravity_element, 0, BallGravity_COUNT - 1, ball_gravity_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Snow day"))
                     {
                         snow_day_selected = true;
@@ -216,7 +249,7 @@ int main() {
                     const char* ball_physics_options[BallPhysics_COUNT] = { "Default", "Light", "Heavy", "Super Light", "CurveBall", "Beach Ball Curve" };
                     const char* ball_physics_element_name = (ball_physics_element >= 0 && ball_physics_element < BallPhysics_COUNT) ? ball_physics_options[ball_physics_element] : "Unknown";
                     ImGui::SliderInt("BallPhysics", &ball_physics_element, 0, BallPhysics_COUNT - 1, ball_physics_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Spike rush"))
                     {
                         spike_rush_selected = true;
@@ -229,7 +262,7 @@ int main() {
                     const char* ball_size_options[BallSize_COUNT] = { "Default", "Small", "Medium", "Large", "Gigantic" };
                     const char* ball_size_element_name = (ball_size_element >= 0 && ball_size_element < BallSize_COUNT) ? ball_size_options[ball_size_element] : "Unknown";
                     ImGui::SliderInt("BallSize", &ball_size_element, 0, BallSize_COUNT - 1, ball_size_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Third Wheel"))
                     {
                         third_wheel_selected = true;
@@ -242,7 +275,7 @@ int main() {
                     const char* ball_bounciness_options[BallBounciness_COUNT] = { "Default", "Low", "High", "Super High" };
                     const char* ball_bounciness_element_name = (ball_bounciness_element >= 0 && ball_bounciness_element < BallBounciness_COUNT) ? ball_bounciness_options[ball_bounciness_element] : "Unknown";
                     ImGui::SliderInt("BallBounciness", &ball_bounciness_element, 0, BallBounciness_COUNT - 1, ball_bounciness_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Time Warp"))
                     {
                         time_warp_selected = true;
@@ -263,7 +296,7 @@ int main() {
                     const char* boosts_amount_options[BoostsAmount_COUNT] = { "Default", "No Boost", "Unlimited", "Recharge (slow)", "Recharge (fast)" };
                     const char* boosts_amount_element_name = (boosts_amount_element >= 0 && boosts_amount_element < BoostsAmount_COUNT) ? boosts_amount_options[boosts_amount_element] : "Unknown";
                     ImGui::SliderInt("BoostsAmount", &boosts_amount_element, 0, BoostsAmount_COUNT - 1, boosts_amount_element_name);
-                    ImGui::SameLine(1250);
+                    ImGui::SameLine(1450);
                     if (ImGui::Button("Save Preset"))
                     {
                         // TODO handle how to save the presets
@@ -359,28 +392,32 @@ int main() {
 
         ImGui::End();
 
-        {
-        ImGui::SetNextWindowSize(ImVec2(400, 900));
-        ImGui::SetNextWindowPos(ImVec2(1400, 0));
-        ImGui::Begin("Join a local game");
+        //{
+        //ImGui::SetNextWindowSize(ImVec2(400, 900));
+        //ImGui::SetNextWindowPos(ImVec2(1400, 0));
+        //ImGui::Begin("Join a local game");
 
-        ImGui::Text("IP Address:");
-        static char ip[128] = "";
-        ImGui::InputText("ip", ip, IM_ARRAYSIZE(ip));
-        ImGui::NewLine();
+        //ImGui::Text("IP Address:");
+        //static char ip[128] = "";
+        //ImGui::InputText("ip", ip, IM_ARRAYSIZE(ip));
+        //ImGui::NewLine();
 
-        ImGui::Text("Port:");
-        static char port[128] = "";
-        ImGui::InputText("port", port, IM_ARRAYSIZE(port));
-        ImGui::NewLine();
+        //ImGui::Text("Port:");
+        //static char port[128] = "";
+        //ImGui::InputText("port", port, IM_ARRAYSIZE(port));
+        //ImGui::NewLine();
 
-        ImGui::Text("Password:");
-        static char password[128] = "";
-        ImGui::InputText("password", password, IM_ARRAYSIZE(password));
-        ImGui::NewLine();
+        //ImGui::Text("Password:");
+        //static char password[128] = "";
+        //ImGui::InputText("password", password, IM_ARRAYSIZE(password));
+        //ImGui::NewLine();
 
-        ImGui::End();
-        }
+        //if (ImGui::Button("Join"))
+        //{
+        //}
+
+        //ImGui::End();
+        //}
 
         window.clear();
         ImGui::SFML::Render(window);
